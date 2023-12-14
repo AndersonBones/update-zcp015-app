@@ -6,8 +6,8 @@ from datetime import datetime
 
 class Base_ZCP015():
     def __init__(self) -> None:
-        self.path_export = r'C:\Users\Anderson\Desktop\Update ZCP015\files\temp\output.xlsx'
-        self.path_base = r'C:\Users\Anderson\Desktop\Update ZCP015\files\ZCP015.xlsx'
+        self.path_export = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\temp\output.xlsx'
+        self.path_base = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\ZCP015.xlsx'
 
         # get first day of month
         self.input_dt = datetime.today()
@@ -37,7 +37,8 @@ class Base_ZCP015():
 
     def remove_current_values(self):
         self.df_base.drop(self.df_base.loc[self.df_base['Dt. Pesagem Inicial'] > '2023-11-30 23:59:59'].index, inplace=True)
-        self.df_base.to_excel('./files/temp/result.xlsx', sheet_name=self.base_sheet, index=False, header=True)
+        self.new_df = self.df_base.drop_duplicates()
+        self.new_df.to_excel('./files/temp/result.xlsx', sheet_name=self.base_sheet, index=False, header=True)
         
     def update_data_base(self):
         self.dfs.append(self.df_base)
