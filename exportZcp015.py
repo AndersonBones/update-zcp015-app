@@ -5,9 +5,9 @@ from datetime import datetime
 
 class Export_ZCP015():
     
-    def __init__(self) -> None:
+    def __init__(self, path) -> None:
 
-        self.path = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\Export Sap\EXPORT.XLSX'
+        self.path = path
         self.file_name = self.path.split("\\")[-1]
         try:
             print(f'Lendo base: {self.file_name}')
