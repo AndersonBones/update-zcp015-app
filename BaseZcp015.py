@@ -6,55 +6,92 @@ from datetime import datetime
 
 class Base_ZCP015():
     def __init__(self) -> None:
-        self.path_export = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\temp\output.xlsx'
-        self.path_base = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\ZCP015.xlsx'
+        try:
+            self.path_export = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\files\temp\output.xlsx'
+            self.path_base = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\files\ZCP015.xlsx'
 
-        # get first day of month
-        self.input_dt = datetime.today()
-        self.res = self.input_dt.replace(day=1).strftime('%d-%m-%Y')
+            self.base_file_name = self.path_base.split("\\")[-1]
+            self.export_file_name = self.path_export.split("\\")[-1]
 
-        # get sheet names
-        self.work_book_export = xl.load_workbook(self.path_export) 
-        self.export_sheet=self.work_book_export.sheetnames[0]
+            # get first day of month
+            self.input_dt = datetime.today()
+            self.current_date = self.input_dt.replace(day=1, hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')
+        
+            # get sheet names
+            self.work_book_export = xl.load_workbook(self.path_export) 
+            self.export_sheet=self.work_book_export.sheetnames[0]
 
-        self.work_base = xl.load_workbook(self.path_base) 
-        self.base_sheet=self.work_base.sheetnames[0]
+            self.work_base = xl.load_workbook(self.path_base) 
+            self.base_sheet=self.work_base.sheetnames[0]
 
-        #read excel files
-        self.df_base = pd.read_excel(self.path_base, sheet_name=self.base_sheet)
-        print('Lendo Base...')
+            #read excel files
+            self.df_base = pd.read_excel(self.path_base, sheet_name=self.base_sheet)
+            print(f'Lendo Base: {self.base_file_name}...')
 
-        self.df_export = pd.read_excel(self.path_export, sheet_name=self.export_sheet)
-        print('Lendo Export...')
+            self.df_export = pd.read_excel(self.path_export, sheet_name=self.export_sheet)
+            print(f'Lendo Base: {self.export_file_name}...')
 
-        self.dfs = []
+            self.dfs = []
+        except Exception as e:
+            print('Erro ao ler Bases...')
+            
+
+        
+
+    def convert_dateTime(self):
+        self.df_base['Dt. Pesagem Inicial'] = pd.to_datetime(self.df_base['Dt. Pesagem Inicial'], format='%d/%m/%Y')
+        self.df_base['Hora Pesagem Inicial'] = pd.to_datetime(self.df_base['Hora Pesagem Inicial'], format='%H:%M:%S')
+        self.df_base['Data de criação'] = pd.to_datetime(self.df_base['Data de criação'], format='%d/%m/%Y')
+        self.df_base['Data Nota Fiscal'] = pd.to_datetime(self.df_base['Data Nota Fiscal'], format='%d/%m/%Y')
+
 
 
     def sort_data_pesagem(self):
-        #self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter') # base file
-        self.df_base.sort_values(by=['Dt. Pesagem Inicial', 'Hora Pesagem Inicial'], inplace=True)
-        print('Organizando Data pesagem incial...')
+        try:
+            self.df_base['Hora Pesagem Inicial'] = pd.to_datetime(self.df_base['Hora Pesagem Inicial'], format='%H:%M:%S')
+            self.df_base.sort_values(by=['Dt. Pesagem Inicial', 'Hora Pesagem Inicial'], inplace=True)
+            print('Organizando Dt. Pesagem Inicial...')
+        except Exception as e:
+            print('Erro ao organizar Dt. Pesagem Inicial...')
 
     def remove_current_values(self):
-        self.df_base.drop(self.df_base.loc[self.df_base['Dt. Pesagem Inicial'] > '2023-11-30 23:59:59'].index, inplace=True)
-        self.new_df = self.df_base.drop_duplicates()
-        self.new_df.to_excel('./files/temp/result.xlsx', sheet_name=self.base_sheet, index=False, header=True)
+        try:
+            print('Removendo Linhas atuais...')
+            self.df_base.drop(self.df_base.loc[self.df_base['Dt. Pesagem Inicial'] >= self.current_date].index, inplace=True)
+            
+        except Exception as e:
+            print('Erro ao Remover Linhas atuais...')
+        
+        try:
+            print('Removendo Linhas duplicadas...')
+            self.new_df = self.df_base.drop_duplicates()
+        except Exception as e:
+            print('Erro ao remover duplicadas...')
+
         
     def update_data_base(self):
-        self.dfs.append(self.df_base)
-        self.dfs.append(self.df_export)
+        try:
+            print(f'Adicionando novos dados de {self.export_file_name}')
+            self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter') # base file
+            self.dfs.append(self.df_base)
+            self.dfs.append(self.df_export)
+            self.df_master = pd.concat(self.dfs, axis=False)
+        except Exception as e:
+            print('Erro ao adicionar novos dados...')
+        
+        try:
+            print("Salvando base...")
+            self.df_master.to_excel(self.writer, sheet_name=self.base_sheet, index=False, header=True)
+            self.writer.close()
+            print('Concluido.')
+        except Exception as e:
+            print('Erro ao salvar base...')
 
-        self.df_master = pd.concat(self.dfs, axis=False)
-        print("Concatenando informações...")
-        self.df_master.to_excel(self.writer, sheet_name=self.base_sheet, index=False, header=True)
-        print('Salvando base de dados...')
-        self.writer.close()
-        print('Concluido.')
-    
+
     def start_update(self):
         self.sort_data_pesagem()
         self.remove_current_values()
+        self.update_data_base()
         
         
 
-Base_ZCP015().start_update()

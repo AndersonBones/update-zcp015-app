@@ -82,8 +82,3 @@ class Gui_ZCP015():
 
 
 
-
-
-
-Export_ZCP015().update()
-Base_ZCP015().sort_data_pesagem()
