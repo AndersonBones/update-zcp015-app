@@ -5,9 +5,9 @@ import openpyxl as xl
 from datetime import datetime
 
 class Base_ZCP015():
-    def __init__(self) -> None:
+    def __init__(self, export_path) -> None:
         try:
-            self.path_export = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\files\temp\output.xlsx'
+            self.path_export = export_path
             self.path_base = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\files\ZCP015.xlsx'
 
             self.base_file_name = self.path_base.split("\\")[-1]
@@ -33,18 +33,8 @@ class Base_ZCP015():
 
             self.dfs = []
         except Exception as e:
-            print('Erro ao ler Bases...')
+            print('Erro ao ler Bases!')
             
-
-        
-
-    def convert_dateTime(self):
-        self.df_base['Dt. Pesagem Inicial'] = pd.to_datetime(self.df_base['Dt. Pesagem Inicial'], format='%d/%m/%Y')
-        self.df_base['Hora Pesagem Inicial'] = pd.to_datetime(self.df_base['Hora Pesagem Inicial'], format='%H:%M:%S')
-        self.df_base['Data de criação'] = pd.to_datetime(self.df_base['Data de criação'], format='%d/%m/%Y')
-        self.df_base['Data Nota Fiscal'] = pd.to_datetime(self.df_base['Data Nota Fiscal'], format='%d/%m/%Y')
-
-
 
     def sort_data_pesagem(self):
         try:
@@ -52,7 +42,7 @@ class Base_ZCP015():
             self.df_base.sort_values(by=['Dt. Pesagem Inicial', 'Hora Pesagem Inicial'], inplace=True)
             print('Organizando Dt. Pesagem Inicial...')
         except Exception as e:
-            print('Erro ao organizar Dt. Pesagem Inicial...')
+            print('Erro ao organizar Dt. Pesagem Inicial!')
 
     def remove_current_values(self):
         try:
@@ -60,33 +50,30 @@ class Base_ZCP015():
             self.df_base.drop(self.df_base.loc[self.df_base['Dt. Pesagem Inicial'] >= self.current_date].index, inplace=True)
             
         except Exception as e:
-            print('Erro ao Remover Linhas atuais...')
+            print('Erro ao Remover Linhas atuais!')
         
         try:
             print('Removendo Linhas duplicadas...')
             self.new_df = self.df_base.drop_duplicates()
         except Exception as e:
-            print('Erro ao remover duplicadas...')
+            print('Erro ao remover duplicadas!')
 
         
     def update_data_base(self):
+
         try:
-            print(f'Adicionando novos dados de {self.export_file_name}')
-            self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter') # base file
+            print(f'Atualizando base: {self.base_file_name}')
+            #self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter') # base file
             self.dfs.append(self.df_base)
             self.dfs.append(self.df_export)
             self.df_master = pd.concat(self.dfs, axis=False)
-        except Exception as e:
-            print('Erro ao adicionar novos dados...')
-        
-        try:
             print("Salvando base...")
-            self.df_master.to_excel(self.writer, sheet_name=self.base_sheet, index=False, header=True)
+            self.df_master.to_excel('./files/result.xlsx', sheet_name=self.base_sheet, index=False, header=True)
             self.writer.close()
             print('Concluido.')
         except Exception as e:
-            print('Erro ao salvar base...')
-
+            print(f'Erro ao autualizar base {self.base_file_name}!')
+        
 
     def start_update(self):
         self.sort_data_pesagem()

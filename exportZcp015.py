@@ -54,9 +54,11 @@ class Export_ZCP015():
 
     def save_file(self):
         try:
+            self.writer = pd.ExcelWriter(self.path, engine='xlsxwriter')
             print("Salvando Base tratada... ")
             self.output_file_name = datetime.today().replace().strftime('%d-%m-%Y (%H-%M-%S)')
-            self.df.to_excel(f"./files/temp/output.xlsx", sheet_name=self.Sheet, index=False, header=True)
+            self.df.to_excel(self.writer, sheet_name=self.Sheet, index=False, header=True)
+            self.writer.close()
             print('Concluido.')
         except Exception as e:
             print("Erro ao salvar base tratada...")
