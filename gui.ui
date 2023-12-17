@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main_window</class>
+ <widget class="QDialog" name="main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>579</width>
+    <height>282</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>UPDATE ZCP015</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(254, 254, 254);
+
+button:{
+	border:none;
+	border-radius:5px
+}</string>
+  </property>
+  <widget class="QPushButton" name="exit_button">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>240</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:'white';
+
+border:1px solid #0072ff;
+color:#0072ff;
+font-weight:600;
+box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+border-radius:5px;
+
+</string>
+   </property>
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="run_process_btn">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>240</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 114, 255);
+border:none;
+color:'white';
+font-weight:600;
+box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+border-radius:5px;</string>
+   </property>
+   <property name="text">
+    <string>Processar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="search_file_btn">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>100</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 114, 255);
+border:none;
+color:'white';
+font-weight:600;
+box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+border-radius:5px;
+
+cursor:pointer;</string>
+   </property>
+   <property name="text">
+    <string>Procurar</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="path">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>441</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:1px solid #0072ff;
+border-radius:5px;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="title">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>421</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+     <underline>false</underline>
+     <stylestrategy>PreferDefault</stylestrategy>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(84, 84, 84);</string>
+   </property>
+   <property name="text">
+    <string>Atualização de Base de Dados ZCP015</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>231</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 114, 255);</string>
+   </property>
+   <property name="text">
+    <string>Selecione a Base com os novos dados</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>250</y>
+     <width>171</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Desenvolvido com ❤ por Anderson</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>441</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar{
+	text-align:center;
+	
+	background-color: rgb(255, 255, 255);
+	border:1px solid  rgba(0, 114, 255, 255);
+	border-radius:5px;
+	font-weight:600;
+	color: rgb(84, 84, 84);
+}
+
+QProgressBar::chunk{
+	
+	
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #00c6ff, stop:1 rgba(0, 114, 255, 255));
+}</string>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 114, 255);</string>
+   </property>
+   <property name="text">
+    <string>Progresso</string>
+   </property>
+  </widget>
+  <zorder>exit_button</zorder>
+  <zorder>run_process_btn</zorder>
+  <zorder>search_file_btn</zorder>
+  <zorder>path</zorder>
+  <zorder>info</zorder>
+  <zorder>label</zorder>
+  <zorder>progressBar</zorder>
+  <zorder>label_2</zorder>
+  <zorder>title</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
