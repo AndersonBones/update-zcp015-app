@@ -22,7 +22,7 @@ class Gui():
     
     def run_process(self, path):
         Export_ZCP015(path).update()
-        Base_ZCP015(path).start_update()
+        #   Base_ZCP015(path).start_update()
 
     def main(self):
         while True:

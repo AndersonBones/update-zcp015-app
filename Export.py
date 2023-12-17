@@ -12,15 +12,16 @@ class Export_ZCP015():
     
     def __init__(self, path) -> None:
         self.path = path
-        self.file_name = self.path.split("/")[-1]
+        self.file_name = self.path.split("\\")[-1]
         try:
             print(f'Lendo base: {self.file_name}')
             self.wb = xl.load_workbook(self.path) 
             self.Sheet=self.wb.sheetnames[0]
             self.df = pd.read_excel(self.path, sheet_name=self.Sheet)
+            #print(self.df.info())
         
         except Exception as e:
-            print(f"Erro na leitura da base: {self.file_name[-1]}")
+            print(f"Erro na leitura da base: {self.file_name}")
             
 
     def remove_null_romaneio(self):
@@ -33,9 +34,10 @@ class Export_ZCP015():
 
     def dateTime_format(self):
         print('Ajustando formado de data...')
-        self.df['Dt. Pesagem Inicial'] = self.df['Dt. Pesagem Inicial'].dt.strftime('%d/%m/%Y')
-        self.df['Data Nota Fiscal'] = self.df['Data Nota Fiscal'].dt.strftime('%d/%m/%Y')
-        self.df['Data de criação'] = self.df['Data de criação'].dt.strftime('%d/%m/%Y')
+
+        self.df['Dt. Pesagem Inicial'] = pd.to_datetime(self.df['Dt. Pesagem Inicial'], format='%d %b %Y', errors='coerce').dt.date
+        self.df['Data Nota Fiscal'] = pd.to_datetime(self.df['Data Nota Fiscal'], format='%d %b %Y', errors='coerce').dt.date
+        self.df['Data de criação'] = pd.to_datetime(self.df['Data de criação'], format='%d %b %Y', errors='coerce').dt.date
         print('Formato de data ajustado.')
 
     def sort_data_pesagem(self):
@@ -73,7 +75,7 @@ class Export_ZCP015():
 
     def save_file(self):
         try:
-            self.writer = pd.ExcelWriter(self.path, engine='xlsxwriter')
+            self.writer = pd.ExcelWriter(self.path, engine='xlsxwriter', date_format='d/m/yyyy')
             print("Salvando Base tratada... ")
             self.output_file_name = datetime.today().replace().strftime('%d-%m-%Y (%H-%M-%S)')
             

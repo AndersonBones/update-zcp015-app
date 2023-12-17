@@ -13,8 +13,8 @@ class MainWindow(QDialog):
         self.search_file_btn.clicked.connect(self.browsefiles)
     # 
     def brousefiles(self):
-        self.file_path = QFileDialog.getOpenFileName(self,'Procurar Arquivo')
-        self.path.setText(self.file_path[0])
+        file_path = QFileDialog.getOpenFileName(self,'Procurar Arquivo')
+        self.path.setText(file_path[0])
     
     def run(self):
         self.app = QApplication(sys.argv)
