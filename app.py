@@ -1,59 +1,30 @@
-import gobject
-import gtk
-import threading
-import time
- 
-class TestThread(threading.Thread):
-    def __init__(self, mainview):
-        threading.Thread.__init__(self)
-        self.mainview = mainview
- 
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QWidget
+from PyQt5.uic import loadUi
+import sys
+
+
+class MainWindow(QDialog):
+    def __init__(self) -> None:
+        super(MainWindow, self).__init__()
+        loadUi('gui.ui', self)
+    
+        self.search_file_btn.clicked.connect(self.browsefiles)
+    # 
+    def brousefiles(self):
+        self.file_path = QFileDialog.getOpenFileName(self,'Procurar Arquivo')
+        self.path.setText(self.file_path[0])
+    
     def run(self):
-        self.work_complete = False
-        self.amount_completed = 0
-        gobject.timeout_add(100, self._update_bar)
- 
-        for i in range(10):
-            time.sleep(0.3)
-            self.amount_completed += .1
- 
-        self.work_complete = True
- 
-    def _update_bar(self):
-        self.mainview.progressbar.set_fraction(self.amount_completed)
-        if self.work_complete:
-            self.mainview.progressbar.set_text("Complete!")
-        else:
-            self.mainview.progressbar.set_text("%d%%" % (self.amount_completed * 100))            
-        return not self.work_complete
- 
-class MainView(gtk.Window):
-    def __init__(self):
-        gtk.Window.__init__(self)
-        self.connect('delete_event', self.handle_window_delete_event)
-        self.connect('destroy', self.quit)
- 
-        self.progressbar = gtk.ProgressBar()
-        button1 = gtk.Button("Test")
-        button1.connect('clicked', self.button1_click)
-        box = gtk.VBox()
-        box.pack_start(self.progressbar)
-        box.pack_start(button1)
-        self.add(box)
- 
-    def quit(self, *args):
-        gtk.main_quit()
- 
-    def handle_window_delete_event(self, *args):
-        return False
- 
-    def button1_click(self, *args):
-        self.progressbar.set_fraction(0)
-        worker = TestThread(self)
-        worker.start()
- 
-if __name__ == "__main__":
-    gobject.threads_init()
-    MainView().show_all()
-    gtk.main()
- 
+        self.app = QApplication(sys.argv)
+        self.mainWindow = MainWindow()
+        self.widget = QtWidgets.QStackedWidget()
+        self.widget.addWidget(self.mainWindow)
+        self.widget.setFixedWidth(500)
+        self.widget.setFixedHeight(300)
+        self.widget.show()
+        sys.exit(self.app.exec_())
+
+if __name__ == '__main__':
+    MainWindow().run()

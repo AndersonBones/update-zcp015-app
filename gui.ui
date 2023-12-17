@@ -14,7 +14,7 @@
    <string>UPDATE ZCP015</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(254, 254, 254);
+   <string notr="true">background-color: rgb(60, 60, 60);
 
 button:{
 	border:none;
