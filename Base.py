@@ -9,6 +9,9 @@ class Base_ZCP015():
     def __init__(self, export_path) -> None:
         try:
             self.path_export = export_path
+            self.rename_export_path = export_path.replace('XLSX', 'xlsx')
+            os.rename(self.path_export, self.rename_export_path)
+            
             self.path_base = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\ZCP015.xlsx'
 
             self.base_file_name = self.path_base.split("\\")[-1]
@@ -33,13 +36,13 @@ class Base_ZCP015():
 
     
     def read_export_database(self):
-        self.export_file_name = self.path_export.split('/')[-1]
+        self.export_file_name = self.rename_export_path.split('/')[-1]
         # get sheet names
-        self.work_book_export = xl.load_workbook(self.path_export) 
+        self.work_book_export = xl.load_workbook(self.rename_export_path) 
         self.export_sheet=self.work_book_export.sheetnames[0]
 
         # read export database
-        self.df_export = pd.read_excel(self.path_export, sheet_name=self.export_sheet)
+        self.df_export = pd.read_excel(self.rename_export_path, sheet_name=self.export_sheet)
         print(f'Lendo Base SAP: {self.export_file_name}...')
 
         

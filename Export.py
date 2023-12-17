@@ -3,7 +3,7 @@ from time import sleep
 import openpyxl as xl
 from datetime import datetime
 from UliPlot.XLSX import auto_adjust_xlsx_column_width
-
+import os
 import locale
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
@@ -11,13 +11,17 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 class Export_ZCP015():
     
     def __init__(self, path) -> None:
+        # Rename file
         self.path = path
-        self.file_name = self.path.split("\\")[-1]
+        self.rename_path = path.replace('XLSX', 'xlsx')
+        os.rename(self.path, self.rename_path)
+
+        self.file_name = self.rename_path.split("/")[-1]
         try:
             print(f'Lendo base: {self.file_name}')
-            self.wb = xl.load_workbook(self.path) 
+            self.wb = xl.load_workbook(self.rename_path) 
             self.Sheet=self.wb.sheetnames[0]
-            self.df = pd.read_excel(self.path, sheet_name=self.Sheet)
+            self.df = pd.read_excel(self.rename_path, sheet_name=self.Sheet)
             #print(self.df.info())
         
         except Exception as e:
@@ -75,7 +79,7 @@ class Export_ZCP015():
 
     def save_file(self):
         try:
-            self.writer = pd.ExcelWriter(self.path, engine='xlsxwriter', date_format='d/m/yyyy')
+            self.writer = pd.ExcelWriter(self.rename_path, engine='xlsxwriter', date_format='d/m/yyyy')
             print("Salvando Base tratada... ")
             self.output_file_name = datetime.today().replace().strftime('%d-%m-%Y (%H-%M-%S)')
             

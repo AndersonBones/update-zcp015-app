@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QWidget
 from PyQt5.uic import loadUi
 import sys
-
+import os
 
 class MainWindow(QDialog):
     def __init__(self) -> None:
@@ -27,4 +27,10 @@ class MainWindow(QDialog):
         sys.exit(self.app.exec_())
 
 if __name__ == '__main__':
-    MainWindow().run()
+   
+    # Absolute path of a file
+    old_name = r"C:\Users\anderson.bones\Desktop\EXPORT.XLSX"
+    new_name = r"C:\Users\anderson.bones\Desktop\EXPORT.xlsx"
+
+    # Renaming the file
+    os.rename(old_name, new_name)
