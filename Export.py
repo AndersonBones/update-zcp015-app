@@ -2,7 +2,6 @@ import pandas as pd
 from time import sleep
 import openpyxl as xl
 from datetime import datetime
-from UliPlot.XLSX import auto_adjust_xlsx_column_width
 import os
 import locale
 
@@ -72,10 +71,14 @@ class Export_ZCP015():
             print("Erro ao remover linhas duplicadas...")
 
     def auto_adjust_column(self, df):
-        for column in df:
-            column_length = max(self.df[column].astype(str).map(len).max(), len(column))
-            col_idx = df.columns.get_loc(column)
-            self.writer.sheets[self.Sheet].set_column(col_idx, col_idx, column_length+2)
+        try:
+            print('Ajustando tamanho das colunas...')
+            for column in df:
+                column_length = max(self.df[column].astype(str).map(len).max(), len(column))
+                col_idx = df.columns.get_loc(column)
+                self.writer.sheets[self.Sheet].set_column(col_idx, col_idx, column_length+2)
+        except Exception as e:
+            print('Colunas ajustadas.')
 
     def save_file(self):
         try:

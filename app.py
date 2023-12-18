@@ -1,9 +1,12 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QWidget
+from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QWidget, QMessageBox, 
 from PyQt5.uic import loadUi
 import sys
-import os
+from Export import Export_ZCP015
+from Base import    Base_ZCP015 
+import threading
+
 
 class MainWindow(QDialog):
     def __init__(self) -> None:
@@ -11,26 +14,34 @@ class MainWindow(QDialog):
         loadUi('gui.ui', self)
     
         self.search_file_btn.clicked.connect(self.browsefiles)
-    # 
-    def brousefiles(self):
-        file_path = QFileDialog.getOpenFileName(self,'Procurar Arquivo')
-        self.path.setText(file_path[0])
+        self.run_process_btn.clicked.connect(self.run_process)
     
-    def run(self):
-        self.app = QApplication(sys.argv)
-        self.mainWindow = MainWindow()
-        self.widget = QtWidgets.QStackedWidget()
-        self.widget.addWidget(self.mainWindow)
-        self.widget.setFixedWidth(500)
-        self.widget.setFixedHeight(300)
-        self.widget.show()
-        sys.exit(self.app.exec_())
+    def success_msg(self):
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle('Tarefa concluida')
+        self.msg.setText('Tarefa concluida com sucesso.')
+        #self.msg.setIcon(QMessageBox.SP_DialogApplyButton)
+        self.msg.exec_()
+
+    def browsefiles(self):
+        self.file_path = QFileDialog.getOpenFileName(self,'Procurar Arquivo','./', 'Excel Files (*.xls *.xlsx)')
+        self.input_path.setText(self.file_path[0])
+    
+    def run_process(self):
+        Export_ZCP015(self.file_path[0]).update()
+        #Base_ZCP015(self.file_path[0]).start_update()
+
+        self.success_msg()
+    
+def run():
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    widget = QtWidgets.QStackedWidget()
+    widget.addWidget(mainWindow)
+    widget.setFixedWidth(665)
+    widget.setFixedHeight(300)
+    widget.show()
+    sys.exit(app.exec_())
 
 if __name__ == '__main__':
-   
-    # Absolute path of a file
-    old_name = r"C:\Users\anderson.bones\Desktop\EXPORT.XLSX"
-    new_name = r"C:\Users\anderson.bones\Desktop\EXPORT.xlsx"
-
-    # Renaming the file
-    os.rename(old_name, new_name)
+    run()

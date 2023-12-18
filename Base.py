@@ -3,7 +3,7 @@ from time import sleep
 import os
 import openpyxl as xl
 from datetime import datetime
-
+from UliPlot.XLSX import auto_adjust_xlsx_column_width
 
 class Base_ZCP015():
     def __init__(self, export_path) -> None:
@@ -12,7 +12,7 @@ class Base_ZCP015():
             self.rename_export_path = export_path.replace('XLSX', 'xlsx')
             os.rename(self.path_export, self.rename_export_path)
             
-            self.path_base = r'C:\Users\Anderson\Desktop\update-zcp015-app\files\ZCP015.xlsx'
+            self.path_base = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\files\ZCP015.xlsx'
 
             self.base_file_name = self.path_base.split("\\")[-1]
             print(f'Iniciando Tratamento da {self.base_file_name}')
@@ -69,7 +69,16 @@ class Base_ZCP015():
         except Exception as e:
             print('Erro ao remover duplicadas!')
 
-        
+    def auto_adjust_column(self, df):
+        try:
+            print('Ajustando tamanho das colunas...')
+            for column in df:
+                column_length = max(df[column].astype(str).map(len).max(), len(column))
+                col_idx = df.columns.get_loc(column)
+                self.writer.sheets[self.base_sheet].set_column(col_idx, col_idx, column_length+2)
+        except Exception as e:
+            print('Colunas ajustadas.')
+
     def update_data_base(self):
 
         try:
@@ -85,6 +94,7 @@ class Base_ZCP015():
         try:
             print("Salvando base...")
             self.df_master.to_excel(self.writer, sheet_name=self.base_sheet, index=False, header=True)
+            self.auto_adjust_column(self.df_master)
             print('Salva com sucesso.')
             self.writer.close()
         except Exception as e:
