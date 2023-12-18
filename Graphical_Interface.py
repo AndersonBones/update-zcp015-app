@@ -10,23 +10,24 @@ from time import sleep
 
 
 
-sg.theme('Dark Grey 14')
+sg.theme('DarkTeal10')
 
 class Gui():
     def __init__(self) -> None:
         self.popup_status = False
         self.layout = [[sg.Text('Atualização de Base de dados ZCP015', font=('Arial Bold', 15))],
-                [sg.Text('Selecione a base com os novos dados', text_color='#7CB9E8')],
-                [sg.Input(text_color='#7CB9E8', size=70, key='-IN-'), sg.FileBrowse(button_text='Procurar', s=15, file_types=(("Excel files","*.xlsx"),))],
-                [sg.Exit(button_text='Sair', button_color="red", s=6), sg.OK(button_text='Processar', s=10, button_color='green')]]
+                [sg.Text('Selecione a base com os novos dados')],
+                [sg.Input( size=70, key='-IN-'), sg.FileBrowse(button_text='Procurar', s=15, file_types=(("Excel files","*.xlsx"),))],
+                [sg.Checkbox("Atualizar ZCP015", key='s1')],
+                [sg.Exit(button_text='Sair', button_color="red", s=6, pad=(5, (15, 0))), sg.OK(button_text='Processar', s=10, pad=(5, (15, 0)))]]
 
-        self.window = sg.Window('UPDATE ZCP015', self.layout, size=(620, 150))
+        self.window = sg.Window('UPDATE ZCP015', self.layout, size=(620, 180))
 
     
     def run_export_process(self, path): 
         Export_ZCP015(path).update()
         
-        Base_ZCP015(path).start_update()
+        #Base_ZCP015(path).start_update()
         self.popup_status = True
        
     def main(self):
@@ -48,7 +49,7 @@ class Gui():
                     
                 
             if self.popup_status:
-                sg.popup_ok(f'Concluido :)\n{"-"*50}', title='Salvo com sucesso')
+                sg.popup_ok(f'Tarefa Concluida com sucesso :)\n{"-"*50}', title='Salvo com sucesso')
                 self.popup_status = False
         self.window.close()
 
