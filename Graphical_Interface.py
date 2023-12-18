@@ -24,10 +24,12 @@ class Gui():
         self.window = sg.Window('UPDATE ZCP015', self.layout, size=(620, 180))
 
     
-    def run_export_process(self, path): 
+    def run_export_process(self, path, base_key): 
         Export_ZCP015(path).update()
+
+        if base_key:
         
-        #Base_ZCP015(path).start_update()
+            Base_ZCP015(path).start_update()
         self.popup_status = True
        
     def main(self):
@@ -44,10 +46,10 @@ class Gui():
 
             if os.path.exists(self.values['-IN-']) == True and self.event == "Processar":
                 if not self.popup_status:
-                    thr = threading.Thread(target=self.run_export_process, args=(self.values['-IN-'],), daemon=True)
+                    thr = threading.Thread(target=self.run_export_process, args=(self.values['-IN-'],self.values['s1']), daemon=True)
                     thr.start()
                     
-                
+            
             if self.popup_status:
                 sg.popup_ok(f'Tarefa Concluida com sucesso :)\n{"-"*50}', title='Salvo com sucesso')
                 self.popup_status = False
