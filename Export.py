@@ -37,11 +37,13 @@ class Export_ZCP015():
 
     def dateTime_format(self):
         print('Ajustando formado de data...')
-
+        self.df['Dt. Agendamento'] = pd.to_datetime(self.df['Dt. Agendamento'], format='%d %b %Y', errors='coerce').dt.date
         self.df['Dt. Pesagem Inicial'] = pd.to_datetime(self.df['Dt. Pesagem Inicial'], format='%d %b %Y', errors='coerce').dt.date
+        #self.df['Hora Pesagem Inicial'] = pd.to_datetime(self.df['Hora Pesagem Inicial'], format='%H:%M:%S', errors='coerce').dt.date
         self.df['Data Nota Fiscal'] = pd.to_datetime(self.df['Data Nota Fiscal'], format='%d %b %Y', errors='coerce').dt.date
         self.df['Data de criação'] = pd.to_datetime(self.df['Data de criação'], format='%d %b %Y', errors='coerce').dt.date
-        print('Formato de data ajustado.')
+        #self.df['Hora Criação'] = pd.to_datetime(self.df['Hora Criação'], format='%H:%M:%S', errors='coerce').dt.date
+        print('Formato de data ajustado.')  
 
     def sort_data_pesagem(self):
         try:
@@ -63,12 +65,7 @@ class Export_ZCP015():
             print('Erro ao Tratar romaneios sem "Dt. Pesagem Inicial"...')
 
 
-    def remove_duplicates(self):
-        try:
-            print('Removendo Linhas duplicadas...')
-            self.newDF = self.df.drop_duplicates()
-        except Exception as e:
-            print("Erro ao remover linhas duplicadas...")
+    
 
     def auto_adjust_column(self, df):
         try:
@@ -79,6 +76,13 @@ class Export_ZCP015():
                 self.writer.sheets[self.Sheet].set_column(col_idx, col_idx, column_length+2)
         except Exception as e:
             print('Colunas ajustadas.')
+
+    def remove_duplicates(self):
+        try:
+            print('Removendo Linhas duplicadas...')
+            self.df.drop_duplicates()
+        except Exception as e:
+            print("Erro ao remover linhas duplicadas...")
 
     def save_file(self):
         try:
@@ -100,8 +104,8 @@ class Export_ZCP015():
         self.remove_null_romaneio()
         self.set_data_pesagem()
         self.sort_data_pesagem()
-        self.dateTime_format()
         self.remove_duplicates()
+        self.dateTime_format()
         self.save_file()
 
 
