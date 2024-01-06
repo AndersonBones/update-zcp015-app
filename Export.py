@@ -35,14 +35,19 @@ class Export_ZCP015():
         except Exception as e:
             print('Erro ao remover romaneios nulos...')
 
+    def GfConvert(self):
+        print('Convertendo Guia Florestal...')
+        self.df['Guia Florestal'] = pd.to_numeric(self.df['Guia Florestal'], errors='coerce')
+        print("Concluido.")
+
     def dateTime_format(self):
         print('Ajustando formado de data...')
         self.df['Dt. Agendamento'] = pd.to_datetime(self.df['Dt. Agendamento'], format='%d %b %Y', errors='coerce').dt.date
         self.df['Dt. Pesagem Inicial'] = pd.to_datetime(self.df['Dt. Pesagem Inicial'], format='%d %b %Y', errors='coerce').dt.date
-        #self.df['Hora Pesagem Inicial'] = pd.to_datetime(self.df['Hora Pesagem Inicial'], format='%H:%M:%S', errors='coerce').dt.date
+        
         self.df['Data Nota Fiscal'] = pd.to_datetime(self.df['Data Nota Fiscal'], format='%d %b %Y', errors='coerce').dt.date
         self.df['Data de criação'] = pd.to_datetime(self.df['Data de criação'], format='%d %b %Y', errors='coerce').dt.date
-        #self.df['Hora Criação'] = pd.to_datetime(self.df['Hora Criação'], format='%H:%M:%S', errors='coerce').dt.date
+        
         print('Formato de data ajustado.')  
 
     def sort_data_pesagem(self):
@@ -105,6 +110,7 @@ class Export_ZCP015():
         self.set_data_pesagem()
         self.sort_data_pesagem()
         self.remove_duplicates()
+        self.GfConvert()
         self.dateTime_format()
         self.save_file()
 

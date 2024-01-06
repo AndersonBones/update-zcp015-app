@@ -4,6 +4,8 @@ import os
 import openpyxl as xl
 from datetime import datetime
 from UliPlot.XLSX import auto_adjust_xlsx_column_width
+import win32com
+
 
 class Base_ZCP015():
     def __init__(self, export_path) -> None:
@@ -12,7 +14,7 @@ class Base_ZCP015():
             self.rename_export_path = export_path.replace('XLSX', 'xlsx')
             os.rename(self.path_export, self.rename_export_path)
             print(self.rename_export_path)
-            self.path_base = r'C:\Users\anderson.bones\Desktop\update-zcp015-app\ZCP015.xlsx'
+            self.path_base = r'F:\BIOMASSA\23. Base de Dados\ZCP015.xlsx'
 
             
 
@@ -49,22 +51,19 @@ class Base_ZCP015():
         print(f'Lendo Base SAP: {self.export_file_name}...')
        
 
-    def dateTime_format(self, df):
+    def date_format(self):
         print('Ajustando formado de data...')
         
-        df['Dt. Agendamento'] = pd.to_datetime(df['Dt. Agendamento'], format='%d %b %Y', errors='coerce').dt.date
-        df['Dt. Pesagem Inicial'] = pd.to_datetime(df['Dt. Pesagem Inicial'], format='%d %b %Y', errors='coerce').dt.date
-       # self.df_master['Hora Pesagem Inicial'] = pd.to_datetime(self.df_master['Hora Pesagem Inicial'], format='%H:%M:%S', errors='coerce').dt.date
-        df['Data Nota Fiscal'] = pd.to_datetime(df['Data Nota Fiscal'], format='%d %b %Y', errors='coerce').dt.date
-        df['Hora Pesagem Inicial'] = df['Hora Pesagem Inicial'].dt.strftime("%H:%M:%S")
+        self.df_master['Dt. Agendamento'] = pd.to_datetime(self.df_master['Dt. Agendamento'], format='%d %b %Y', errors='coerce').dt.date
+        self.df_master['Dt. Pesagem Inicial'] = pd.to_datetime(self.df_master['Dt. Pesagem Inicial'], format='%d %b %Y', errors='coerce').dt.date
+        self.df_master['Data Nota Fiscal'] = pd.to_datetime(self.df_master['Data Nota Fiscal'], format='%d %b %Y', errors='coerce').dt.date
+        self.df_master['Hora Pesagem Inicial'] = self.df_master['Hora Pesagem Inicial'].dt.strftime("%H:%M:%S")  
+        self.df_master['Hora Criação'] = self.df_master['Hora Criação'].dt.strftime("%H:%M:%S")
         
-        df['Hora Criação'] = df['Hora Criação'].dt.strftime("%H:%M:%S")
-        #self.df_master['Hora Criação'] = pd.to_datetime(self.df_master['Hora Criação'], format='%H:%M:%S', errors='coerce').dt.date
         print('Formato de data ajustado.')  
 
     def sort_data_pesagem(self):
         try:
-            #self.df_base['Hora Pesagem Inicial'] = pd.to_datetime(self.df_base['Hora Pesagem Inicial'], format='%H:%M:%S')
             self.df_base.sort_values(by=['Dt. Pesagem Inicial', 'Hora Pesagem Inicial'], inplace=True)
             print('Organizando Dt. Pesagem Inicial...')
         except Exception as e:
@@ -98,11 +97,12 @@ class Base_ZCP015():
 
         try:
             print(f'Atualizando base: {self.base_file_name}')
-            self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter', date_format='%d-%m-%Y') # base file
+            self.writer = pd.ExcelWriter(self.path_base, engine='xlsxwriter', date_format='d/m/yyyy') # base file
             self.dfs.append(self.df_base)
             self.dfs.append(self.df_export)
             self.df_master = pd.concat(self.dfs, axis=False)
-            
+            self.date_format(self.df_master)
+
             print('Base atualizada com sucesso.')
         except Exception as e:
             print(f'Erro ao autualizar base {self.base_file_name}!')
@@ -115,7 +115,9 @@ class Base_ZCP015():
             self.writer.close()
         except Exception as e:
             print(f'Erro ao salvar base {self.base_file_name}!')
-        
+    
+    
+
 
     def start_update(self):
         self.read_database()
@@ -124,6 +126,7 @@ class Base_ZCP015():
         self.remove_current_values()
         
         self.update_data_base()
+
         
         
 

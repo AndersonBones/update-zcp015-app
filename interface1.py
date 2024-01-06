@@ -18,10 +18,11 @@ class Gui():
         self.layout = [[sg.Text('Atualização de Base de dados ZCP015', font=('Arial Bold', 15))],
                 [sg.Text('Selecione a base com os novos dados')],
                 [sg.Input( size=70, key='-IN-'), sg.FileBrowse(button_text='Procurar', s=15, file_types=(("Excel files","*.xlsx"),))],
-                [sg.Checkbox("Atualizar ZCP015", key='s1')],
+                [sg.Checkbox("Exportar Base SAP", key='s2')],
+                [sg.Checkbox("Atualizar Base ZCP015", key='s1')],
                 [sg.Exit(button_text='Sair', button_color="red", s=6, pad=(5, (15, 0))), sg.OK(button_text='Processar', s=10, pad=(5, (15, 0)))]]
 
-        self.window = sg.Window('UPDATE ZCP015', self.layout, size=(620, 180))
+        self.window = sg.Window('UPDATE ZCP015', self.layout, size=(620, 220))
 
     
     def run_export_process(self, path, base_key): 
