@@ -93,7 +93,7 @@ class Export_ZCP015():
         try:
             self.writer = pd.ExcelWriter(self.rename_path, engine='xlsxwriter', date_format='d/m/yyyy')
             print("Salvando Base tratada... ")
-            self.output_file_name = datetime.today().replace().strftime('%d-%m-%Y (%H-%M-%S)')
+            #self.output_file_name = datetime.today().replace().strftime('%d-%m-%Y (%H-%M-%S)')
             
             self.df.to_excel(self.writer, sheet_name=self.Sheet, index=False, header=True)
 

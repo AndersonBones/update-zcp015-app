@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>644</width>
-    <height>302</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -36,7 +36,7 @@ button:{
    <property name="geometry">
     <rect>
      <x>26</x>
-     <y>201</y>
+     <y>231</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -60,7 +60,7 @@ border-radius:5px;
    <property name="geometry">
     <rect>
      <x>105</x>
-     <y>201</y>
+     <y>231</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -163,7 +163,7 @@ border-radius:5px;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(0, 114, 255);
-font-size:15px;</string>
+font-size:18px;</string>
    </property>
    <property name="text">
     <string>Selecione a Base com os novos dados</string>
@@ -173,7 +173,7 @@ font-size:15px;</string>
    <property name="geometry">
     <rect>
      <x>27</x>
-     <y>256</y>
+     <y>286</y>
      <width>611</width>
      <height>31</height>
     </rect>
@@ -208,8 +208,26 @@ QProgressBar::chunk{
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font-size:{
+	20px
+}</string>
+   </property>
    <property name="text">
-    <string>Atualizar ZCP015</string>
+    <string>Exportar Base do SAP</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>190</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Atualizar Base ZCP015</string>
    </property>
   </widget>
   <zorder>exit_button</zorder>
@@ -220,6 +238,7 @@ QProgressBar::chunk{
   <zorder>progressBar</zorder>
   <zorder>title</zorder>
   <zorder>checkBox</zorder>
+  <zorder>checkBox_2</zorder>
  </widget>
  <resources/>
  <connections/>
