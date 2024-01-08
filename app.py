@@ -1,7 +1,4 @@
-from darkLayout import Gui
-from datetime import datetime
-import win32com.client
-
+from defaultLayout import Gui
 
 if __name__ == '__main__':
     Gui().main()

@@ -58,30 +58,3 @@ def sapconnection():
         connection = None
         application = None
         SapGuiAuto = None
-
-#main
-
-
-
-
-def get_temp_files():
-    pyfiles = []
-    path = r"C:\TEMP"
-    for file in os.listdir(r"C:\TEMP"):
-        if file.endswith((".xlsx", '.XLSX')):
-            pyfiles.append(file)
-    return pyfiles
-
-
-def check_process_running():
-    process_list = []
-    temp_files = get_temp_files()  
-
-    # for process in psutil.process_iter():
-    #     print(process.name())
-    #     if process.name() in temp_files:
-    #         process.kill()
-
-if __name__ == "__main__":
-    sapconnection()
-    #check_process_running()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>644</width>
-    <height>341</height>
+    <height>302</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -36,7 +36,7 @@ button:{
    <property name="geometry">
     <rect>
      <x>26</x>
-     <y>231</y>
+     <y>241</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -60,7 +60,7 @@ border-radius:5px;
    <property name="geometry">
     <rect>
      <x>105</x>
-     <y>231</y>
+     <y>241</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -169,36 +169,6 @@ font-size:18px;</string>
     <string>Selecione a Base com os novos dados</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar">
-   <property name="geometry">
-    <rect>
-     <x>27</x>
-     <y>286</y>
-     <width>611</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QProgressBar{
-	text-align:center;
-	
-	background-color: rgb(255, 255, 255);
-	border:1px solid  rgba(0, 114, 255, 255);
-	border-radius:5px;
-	font-weight:600;
-	color: rgb(84, 84, 84);
-}
-
-QProgressBar::chunk{
-
-	
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #00c6ff, stop:1 rgba(0, 114, 255, 255));
-}</string>
-   </property>
-   <property name="value">
-    <number>24</number>
-   </property>
-  </widget>
   <widget class="QCheckBox" name="checkBox">
    <property name="geometry">
     <rect>
@@ -230,15 +200,32 @@ QProgressBar::chunk{
     <string>Atualizar Base ZCP015</string>
    </property>
   </widget>
+  <widget class="QLabel" name="process">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>189</y>
+     <width>121</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 114, 255);
+font-size:18px;</string>
+   </property>
+   <property name="text">
+    <string>Processando...</string>
+   </property>
+  </widget>
   <zorder>exit_button</zorder>
   <zorder>run_process_btn</zorder>
   <zorder>search_file_btn</zorder>
   <zorder>input_path</zorder>
   <zorder>info</zorder>
-  <zorder>progressBar</zorder>
   <zorder>title</zorder>
   <zorder>checkBox</zorder>
   <zorder>checkBox_2</zorder>
+  <zorder>process</zorder>
  </widget>
  <resources/>
  <connections/>

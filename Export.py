@@ -20,9 +20,10 @@ class Export_ZCP015():
             print(f'Lendo base: {self.file_name}')
             self.wb = xl.load_workbook(self.rename_path) 
             self.Sheet=self.wb.sheetnames[0]
+            
             self.df = pd.read_excel(self.rename_path, sheet_name=self.Sheet)
             #print(self.df.info())
-        
+
         except Exception as e:
             print(f"Erro na leitura da base: {self.file_name}")
             
@@ -113,6 +114,7 @@ class Export_ZCP015():
         self.GfConvert()
         self.dateTime_format()
         self.save_file()
+        
 
 
 

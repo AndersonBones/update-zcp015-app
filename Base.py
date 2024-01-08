@@ -124,6 +124,7 @@ class Base_ZCP015():
             self.auto_adjust_column(self.df_master)
             print('Salva com sucesso.')
             self.writer.close()
+            
         except Exception as e:
             print(f'Erro ao salvar base {self.base_file_name}!')
     
