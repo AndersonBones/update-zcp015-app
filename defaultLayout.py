@@ -18,7 +18,7 @@ class Gui():
                 [sg.Text('Selecione a base com os novos dados')],
                 [sg.Input( size=70, key='-IN-', default_text='C:\\TEMP\\EXPORT.XLSX'), sg.FileBrowse(button_text='Procurar', s=15, file_types=(("Excel files","*.xlsx"),))],
                 [sg.Checkbox("Atualizar Base ZCP015", key='s1')],
-                [sg.Exit(button_text='Sair', button_color="red", s=6, pad=(5, (15, 0))), sg.OK(button_text='Processar', s=10, pad=(5, (15, 0))), sg.Text('', key='RUN', s=100, pad=(15, (20, 0)))]]
+                [sg.Exit(button_text='Sair', button_color="#e35d5b", s=6, pad=(5, (15, 0))), sg.OK(button_text='Processar', s=10, pad=(5, (15, 0))), sg.Text('', key='RUN', s=100, pad=(15, (20, 0)))]]
 
         self.window = sg.Window('ATUALIZAÇÃO ZCP015', self.layout, size=(600, 180))
 
